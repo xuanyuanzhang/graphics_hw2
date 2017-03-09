@@ -1,0 +1,25 @@
+#version 330
+
+in vec2 outTexCoord;
+
+out vec4 fragColor;
+
+struct Material
+{
+    vec3 colour;
+    int useColour;
+    float reflectance;
+};
+
+uniform sampler2D texture_sampler;
+uniform Material material;
+
+void main()
+{
+	//ivec2 size = textureSize(texture_sampler,0);
+	float indexSum = floor(outTexCoord.x) + floor(outTexCoord.y);
+	bool isEven = mod(indexSum,2.0) == 1.0;
+	vec4 evenGrid = vec4(0.0,0.0,0.0,1.0);
+	vec4 oddGrid = vec4(1.0,1.0,1.0,1.0);
+	fragColor = ((isEven) ? evenGrid : oddGrid);
+}

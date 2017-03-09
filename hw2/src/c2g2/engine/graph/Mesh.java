@@ -5,6 +5,7 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL13.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
@@ -22,17 +23,19 @@ public class Mesh {
 
     private Material material;
     
+    private Texture texture;
+    
     private float[] pos;
     private float[] textco;
     private float[] norms;
     private int[] inds;
 
-    public Mesh(){
+    /*public Mesh(){
     	this(new float[]{0.0f,0.0f,0.0f,0.0f,0.0f,1.0f,0.0f,1.0f,0.0f,0.0f,1.0f,1.0f,1.0f,0.0f,0.0f,1.0f,0.0f,1.0f,1.0f,1.0f,0.0f,1.0f,1.0f,1.0f}, 
     			new float[]{0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f}, 
     			new float[]{0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f}, 
     			new int[]{0,6,4,0,2,6,0,3,2,0,1,3,2,7,6,2,3,7,4,6,7,4,7,5,0,4,5,0,5,1,1,5,7,1,7,3});
-    }
+    }*/
     
     public void setMesh(float[] positions, float[] textCoords, float[] normals, int[] indices){
     	pos = positions;
@@ -46,6 +49,7 @@ public class Mesh {
         System.out.println("create mesh:");
         System.out.println("v: "+positions.length+" t: "+textCoords.length+" n: "+normals.length+" idx: "+indices.length);
         try {
+        	//this.texture = texture;
             vertexCount = indices.length;
             vboIdList = new ArrayList<Integer>();
 
@@ -127,7 +131,16 @@ public class Mesh {
     }
 
     public void render() {
+    	if(texture != null){
+    		glActiveTexture(GL_TEXTURE0);
+    		glBindTexture(GL_TEXTURE_2D, texture.getId());
+    	}
         // Draw the mesh
+    	/*if (texture != null){
+    		glActivityTexture(GL_TEXTURE0);
+    		glBindTexture(GL_TEXTURE_2D, texture.getId());
+    	}*/
+    	
         glBindVertexArray(getVaoId());
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
@@ -196,5 +209,13 @@ public class Mesh {
     		
     	}
     	setMesh(pos, textco, norms, inds);
+    }
+    
+    public void setTexture(Texture texture){
+    	this.texture = texture;
+    }
+    
+    public Texture getTexture(){
+    	return texture;
     }
 }

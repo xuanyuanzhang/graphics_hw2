@@ -5,7 +5,6 @@ layout (location=1) in vec2 texCoord;
 layout (location=2) in vec3 vertexNormal;
 
 out vec3 frontColor;
-out vec2 outTexCoord;
 
 struct Attenuation
 {
@@ -97,6 +96,5 @@ void main()
 	frontColor += calcDirectionalLight(directionalLight, mvVertexPos, mvVertexNormal);
 	frontColor += calcPointLight(pointLight, mvVertexPos, mvVertexNormal);
 	
-	outTexCoord = texCoord;
 	gl_Position = projectionMatrix * (modelViewMatrix * vec4(position, 1.0));
 }

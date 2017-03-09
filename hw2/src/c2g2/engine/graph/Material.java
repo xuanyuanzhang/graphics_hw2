@@ -9,7 +9,6 @@ public class Material {
     private Vector3f colour;
     
     private float reflectance;
-
     
     public Material() {
         colour = DEFAULT_COLOUR;
@@ -43,5 +42,6 @@ public class Material {
     public boolean isTextured() {
         return false;
     }
+    
 
 }

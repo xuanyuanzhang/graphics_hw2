@@ -1,0 +1,16 @@
+#version 330
+
+in vec3 frontColor;
+in vec2 outTexCoord;
+
+out vec4 fragColor;
+
+void main()
+{
+	float indexSum = floor(outTexCoord.x) + floor(outTexCoord.y);
+	bool isEven = mod(indexSum,2.0) == 1.0;
+	vec4 evenGrid = vec4(0.0,0.0,0.0,0.0);
+	vec4 oddGrid = vec4(1.0,1.0,1.0,1.0);
+	//fragColor = frontColor;
+	fragColor = ((isEven) ? evenGrid : oddGrid);
+}

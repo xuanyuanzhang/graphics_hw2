@@ -1,0 +1,31 @@
+#version 330
+
+in vec2 outTexCoord;
+in vec3 mvVertexNormal;
+in vec3 mvVertexPos;
+
+out vec4 fragColor;
+
+struct Material
+{
+    vec3 colour;
+    int useColour;
+    float reflectance;
+};
+
+uniform Material material;
+
+void main()
+{
+	/*ivec2 size = textureSize(texture_sampler,0);
+	float indexSum = floor(outTexCoord.x) + floor(outTexCoord.y);
+	bool isEven = mod(indexSum,2.0) == 1.0;
+	vec4 evenGrid = vec4(0.0,0.0,0.0,1.0);
+	vec4 oddGrid = vec4(1.0,1.0,1.0,1.0);
+	fragColor = ((isEven) ? evenGrid : oddGrid);*/
+	
+	vec4 baseColour = vec4(material.colour, 1.0);
+    vec4 redTint = vec4(0.5, 0.0, 0.0, 1.0);
+
+    fragColor = (baseColour + redTint);
+}
