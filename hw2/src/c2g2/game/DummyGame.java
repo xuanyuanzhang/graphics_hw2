@@ -75,7 +75,7 @@ public class DummyGame implements IGameLogic {
         Texture texture2 = new Texture(file2);
         material.setTexture(texture1);
         material.setNormalMap(texture2);
-        material2.setTexture(texture1);
+        material2.setTexture(texture2);
         material2.setNormalMap(texture2);
         
         mesh.setMaterial(material);
@@ -85,6 +85,7 @@ public class DummyGame implements IGameLogic {
         GameItem gameItem5 = new GameItem(mesh2);
         gameItem5.setScale(0.5f);
         gameItem5.setPosition(0, 0, -2);
+        gameItem5.setRotation(0, 210, 0);
         
         /*GameItem gameItem1 = new GameItem(mesh);
         gameItem1.setScale(0.5f);
@@ -285,7 +286,7 @@ public class DummyGame implements IGameLogic {
         }
 
         // Update directional light direction, intensity and colour
-        /*lightAngle += 1.1f;
+        lightAngle += 1.1f;
         
         if (lightAngle > 90) {
             directionalLight.setIntensity(0);
@@ -305,7 +306,7 @@ public class DummyGame implements IGameLogic {
         }
         double angRad = Math.toRadians(lightAngle);
         directionalLight.getDirection().x = (float) Math.sin(angRad);
-        directionalLight.getDirection().y = (float) Math.cos(angRad);*/
+        directionalLight.getDirection().y = (float) Math.cos(angRad);
     }
 
     @Override

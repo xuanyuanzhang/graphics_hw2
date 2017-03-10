@@ -55,6 +55,7 @@ vec4 calcLightColour(vec3 light_colour, float light_intensity, vec3 position, ve
 	float factor = light_intensity * diffuseFactor;
 	factor = floor(factor * levels)/levels;
     diffuseColour = vec4(light_colour, 1.0) * factor;
+	
 
     // Specular Light
     vec3 camera_direction = normalize(-position);
@@ -65,10 +66,9 @@ vec4 calcLightColour(vec3 light_colour, float light_intensity, vec3 position, ve
 	factor = floor(light_intensity  * specularFactor * material.reflectance * levels)/levels;
     specColour = factor * vec4(light_colour, 1.0);
 	
-	//float colorSum = diffuseColour + specColour;
-	//float level = floor(colorSum * levels);
-	//colorSum = level/levels;
-
+	if(dot(-mvVertexPos,mvVertexNormal)<=0.02)
+		return vec4(0,0,0,0);
+	
     return diffuseColour + specColour;
 }
 
