@@ -25,6 +25,8 @@ public class Mesh {
     
     private Texture texture;
     
+    private Texture normalMap;
+    
     private float[] pos;
     private float[] textco;
     private float[] norms;
@@ -120,6 +122,8 @@ public class Mesh {
 
     public void setMaterial(Material material) {
         this.material = material;
+        this.texture = material.getTexture();
+        this.normalMap = material.getNormalMap();
     }
 
     public int getVaoId() {
@@ -131,10 +135,16 @@ public class Mesh {
     }
 
     public void render() {
-    	if(texture != null){
-    		glActiveTexture(GL_TEXTURE0);
-    		glBindTexture(GL_TEXTURE_2D, texture.getId());
-    	}
+		if(texture != null){
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, texture.getId());
+			//System.out.println(texture.getId());
+		}
+		if(normalMap != null){
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, normalMap.getId());
+			//System.out.println(normalMap.getId());
+		}
         // Draw the mesh
     	/*if (texture != null){
     		glActivityTexture(GL_TEXTURE0);
@@ -153,7 +163,12 @@ public class Mesh {
         glDisableVertexAttribArray(1);
         glDisableVertexAttribArray(2);
         glBindVertexArray(0);
-        glBindTexture(GL_TEXTURE_2D, 0);
+        if(texture != null){
+			glBindTexture(GL_TEXTURE_2D, texture.getId());
+		}
+		if(normalMap != null){
+			glBindTexture(GL_TEXTURE_2D, normalMap.getId());
+		}
     }
 
     public void cleanUp() {

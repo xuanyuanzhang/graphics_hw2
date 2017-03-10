@@ -52,7 +52,9 @@ vec4 calcLightColour(vec3 light_colour, float light_intensity, vec3 position, ve
 
     // Diffuse Light
     float diffuseFactor = max(dot(normal, to_light_dir), 0.0);
-    diffuseColour = vec4(light_colour, 1.0) * light_intensity * diffuseFactor;
+	float factor = light_intensity * diffuseFactor;
+	factor = floor(factor * levels)/levels;
+    diffuseColour = vec4(light_colour, 1.0) * factor;
 
     // Specular Light
     vec3 camera_direction = normalize(-position);
@@ -60,7 +62,8 @@ vec4 calcLightColour(vec3 light_colour, float light_intensity, vec3 position, ve
     vec3 reflected_light = normalize(reflect(from_light_dir , normal));
     float specularFactor = max( dot(camera_direction, reflected_light), 0.0);
     specularFactor = pow(specularFactor, specularPower);
-    specColour = light_intensity  * specularFactor * material.reflectance * vec4(light_colour, 1.0);
+	factor = floor(light_intensity  * specularFactor * material.reflectance * levels)/levels;
+    specColour = factor * vec4(light_colour, 1.0);
 	
 	//float colorSum = diffuseColour + specColour;
 	//float level = floor(colorSum * levels);
@@ -90,14 +93,15 @@ vec4 calcDirectionalLight(DirectionalLight light, vec3 position, vec3 normal)
 void main()
 {
     vec4 baseColour; 
-    if ( material.useColour == 1 )
-    {
-        baseColour = vec4(material.colour, 1);
-    }
-    else
-    {
+    //if ( material.useColour == 1 )
+    //{
+        
+    //}
+    //else
+    //{
         baseColour = texture(texture_sampler, outTexCoord);
-    }
+		baseColour = vec4(material.colour, 1);
+    //}
     vec4 totalLight = vec4(ambientLight, 1.0);
     totalLight += calcDirectionalLight(directionalLight, mvVertexPos, mvVertexNormal);
     totalLight += calcPointLight(pointLight, mvVertexPos, mvVertexNormal); 

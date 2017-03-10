@@ -84,14 +84,15 @@ vec4 calcDirectionalLight(DirectionalLight light, vec3 position, vec3 normal)
 void main()
 {
     vec4 baseColour; 
-    if ( material.useColour == 1 )
-    {
-        baseColour = vec4(material.colour, 1);
-    }
-    else
-    {
+    //if ( material.useColour == 1 )
+    //{
+    //    baseColour = vec4(material.colour, 1);
+    //}
+    //else
+    //{
         baseColour = texture(texture_sampler, outTexCoord);
-    }
+		 baseColour = vec4(material.colour, 1);
+    //}
     vec4 totalLight = vec4(ambientLight, 1.0);
     totalLight += calcDirectionalLight(directionalLight, mvVertexPos, mvVertexNormal);
     totalLight += calcPointLight(pointLight, mvVertexPos, mvVertexNormal); 

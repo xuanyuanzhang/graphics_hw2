@@ -1,8 +1,7 @@
 #version 330
 
 in vec2 outTexCoord;
-in vec3 mvVertexNormal;
-in vec3 mvVertexPos;
+in vec3 frontColor;
 
 out vec4 fragColor;
 
@@ -17,9 +16,7 @@ uniform Material material;
 
 void main()
 {
-	//ivec2 size = textureSize(texture_sampler,0);
 	vec4 baseColour = vec4(material.colour, 1.0);
-    vec4 redTint = vec4(0.5, 0.0, 0.0, 1.0);
 	
 	float indexSum = floor(outTexCoord.x*float(21.0));
 	float index = mod(indexSum, 6.0);
@@ -30,18 +27,18 @@ void main()
 	vec4 blue = vec4(0.0,0.0,1.0,1.0);
 	vec4 violet = vec4(1.0,0.5,1.0,1.0);
 	
+	vec4 color = vec4(0.0,0.0,0.0,0.0);
 	if(index==0)
-		fragColor = red;
+		color = red;
 	else if(index==1)
-		fragColor = orange;
+		color = orange;
 	else if(index==2)
-		fragColor = yellow;
+		color = yellow;
 	else if(index==3)
-		fragColor = green;
+		color = green;
 	else if(index==4)
-		fragColor = blue;
+		color = blue;
 	else
-		fragColor = violet;
-
-    //fragColor = (baseColour + redTint);
+		color = violet;
+	fragColor = color * vec4(frontColor, 1.0);
 }

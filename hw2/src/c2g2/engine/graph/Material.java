@@ -10,6 +10,10 @@ public class Material {
     
     private float reflectance;
     
+    private Texture texture;
+
+	private Texture normalMap;
+    
     public Material() {
         colour = DEFAULT_COLOUR;
         reflectance = 0;
@@ -20,8 +24,6 @@ public class Material {
         this.colour = colour;
         this.reflectance = reflectance;
     }
-
- 
 
     public Vector3f getColour() {
         return colour;
@@ -40,8 +42,27 @@ public class Material {
     }
 
     public boolean isTextured() {
-        return false;
+        return this.texture != null;
     }
     
+    public Texture getTexture() {
+		return texture;
+	}
+
+	public void setTexture(Texture texture) {
+		this.texture = texture;
+	}
+    
+    public boolean hasNormalMap(){
+    	return this.normalMap !=null;
+    }
+    
+    public Texture getNormalMap(){
+    	return normalMap;
+    }
+    
+    public void setNormalMap(Texture normalMap){
+    	this.normalMap = normalMap;
+    }
 
 }

@@ -67,26 +67,49 @@ public class DummyGame implements IGameLogic {
         float reflectance = 1f;
         Mesh mesh = OBJLoader.loadMesh("src/resources/models/cube.obj");
         Material material = new Material(new Vector3f(0.2f, 0.5f, 0.5f), reflectance);
+        Material material2 = new Material(new Vector3f(0.69f, 0.09f, 0.12f), reflectance);
+        
+        InputStream file1 = new FileInputStream("src/resources/textures/grassblock.png");
+        Texture texture1 = new Texture(file1);
+        InputStream file2 = new FileInputStream("src/resources/textures/wallstone.png");
+        Texture texture2 = new Texture(file2);
+        material.setTexture(texture1);
+        material.setNormalMap(texture2);
+        material2.setTexture(texture1);
+        material2.setNormalMap(texture2);
         
         mesh.setMaterial(material);
-        InputStream file = new FileInputStream("src/resources/textures/grassblock.png");
-        Texture texture = new Texture(file);
-        mesh.setTexture(texture);
         
-        GameItem gameItem = new GameItem(mesh);
-        gameItem.setScale(0.5f);
-        gameItem.setPosition(0, 0, -2);
-        gameItems = new GameItem[]{gameItem};
-
+        Mesh mesh2 = OBJLoader.loadMesh("src/resources/models/testObj.obj");
+        mesh2.setMaterial(material2);
+        GameItem gameItem5 = new GameItem(mesh2);
+        gameItem5.setScale(0.5f);
+        gameItem5.setPosition(0, 0, -2);
+        
+        /*GameItem gameItem1 = new GameItem(mesh);
+        gameItem1.setScale(0.5f);
+        gameItem1.setPosition(-1, -1, -3);
+        GameItem gameItem2 = new GameItem(mesh);
+        gameItem2.setScale(0.5f);
+        gameItem2.setPosition(1, -1, -3);
+        GameItem gameItem3 = new GameItem(mesh);
+        gameItem3.setScale(0.5f);
+        gameItem3.setPosition(-1, -1, -4);
+        GameItem gameItem4 = new GameItem(mesh);
+        gameItem4.setScale(0.5f);
+        gameItem4.setPosition(1, -1, -4);*/
+        //gameItems = new GameItem[]{gameItem1,gameItem2,gameItem3,gameItem4,gameItem5};
+        gameItems = new GameItem[]{gameItem5};
+        
         ambientLight = new Vector3f(0.3f, 0.3f, 0.3f);
         Vector3f lightColour = new Vector3f(1, 1, 1);
         Vector3f lightPosition = new Vector3f(0, 0, 1);
-        float lightIntensity = 1.0f;
+        float lightIntensity = 0.0f;
         pointLight = new PointLight(lightColour, lightPosition, lightIntensity);
         PointLight.Attenuation att = new PointLight.Attenuation(0.0f, 0.0f, 1.0f);
         pointLight.setAttenuation(att);
-
-        lightPosition = new Vector3f(-1, 0, 0);
+        lightIntensity = 1.0f;
+        lightPosition = new Vector3f(-1, 1, 0);
         lightColour = new Vector3f(1, 1, 1);
         directionalLight = new DirectionalLight(lightColour, lightPosition, lightIntensity);
     }
@@ -113,6 +136,21 @@ public class DummyGame implements IGameLogic {
         else if(window.isKeyPressed(GLFW_KEY_5)){
             // select current shader
             currentShaderIndex = 2 % renderer.getNumShaders();
+            System.out.println("selected shader: " +  renderer.getShaderName(currentShaderIndex));
+        }
+        else if(window.isKeyPressed(GLFW_KEY_6)){
+            // select current shader
+            currentShaderIndex = 3 % renderer.getNumShaders();
+            System.out.println("selected shader: " +  renderer.getShaderName(currentShaderIndex));
+        }
+        else if(window.isKeyPressed(GLFW_KEY_7)){
+            // select current shader
+            currentShaderIndex = 4 % renderer.getNumShaders();
+            System.out.println("selected shader: " +  renderer.getShaderName(currentShaderIndex));
+        }
+        else if(window.isKeyPressed(GLFW_KEY_8)){
+            // select current shader
+            currentShaderIndex = 5 % renderer.getNumShaders();
             System.out.println("selected shader: " +  renderer.getShaderName(currentShaderIndex));
         }
     	else if(window.isKeyPressed(GLFW_KEY_Q)){
@@ -199,7 +237,7 @@ public class DummyGame implements IGameLogic {
     		//rotation by manipulating mesh
     		gameItems[currentObj].getMesh().translateMesh(new Vector3f(0f,0.05f,1f));
     	}
-    	else if(window.isKeyPressed(GLFW_KEY_9)){
+    	/*else if(window.isKeyPressed(GLFW_KEY_9)){
     		//rotation by manipulating mesh
     		gameItems[currentObj].getMesh().rotateMesh(new Vector3f(1,1,1), 30);
     	}
@@ -210,6 +248,22 @@ public class DummyGame implements IGameLogic {
     	else if(window.isKeyPressed(GLFW_KEY_7)){
     		//rotation by manipulating mesh
     		gameItems[currentObj].getMesh().reflectMesh(new Vector3f(0f,1f,0f), new Vector3f(0f, 1f, 0f));
+    	}*/
+    	else if(window.isKeyPressed(GLFW_KEY_LEFT)){
+    		//rotation by manipulating mesh
+            camera.setPosition(camera.getPosition().x+TRANSLATE_STEP, camera.getPosition().y, camera.getPosition().z);
+    	}
+    	else if(window.isKeyPressed(GLFW_KEY_RIGHT)){
+    		//rotation by manipulating mesh
+            camera.setPosition(camera.getPosition().x-TRANSLATE_STEP, camera.getPosition().y, camera.getPosition().z);
+    	}
+    	else if(window.isKeyPressed(GLFW_KEY_UP)){
+    		//rotation by manipulating mesh
+            camera.setPosition(camera.getPosition().x, camera.getPosition().y+TRANSLATE_STEP, camera.getPosition().z);
+    	}
+    	else if(window.isKeyPressed(GLFW_KEY_DOWN)){
+    		//rotation by manipulating mesh
+            camera.setPosition(camera.getPosition().x, camera.getPosition().y-TRANSLATE_STEP, camera.getPosition().z);
     	}
     	else if(window.isKeyPressed(GLFW_KEY_1)){
     		//get screenshot
@@ -231,7 +285,7 @@ public class DummyGame implements IGameLogic {
         }
 
         // Update directional light direction, intensity and colour
-        lightAngle += 1.1f;
+        /*lightAngle += 1.1f;
         
         if (lightAngle > 90) {
             directionalLight.setIntensity(0);
@@ -251,7 +305,7 @@ public class DummyGame implements IGameLogic {
         }
         double angRad = Math.toRadians(lightAngle);
         directionalLight.getDirection().x = (float) Math.sin(angRad);
-        directionalLight.getDirection().y = (float) Math.cos(angRad);
+        directionalLight.getDirection().y = (float) Math.cos(angRad);*/
     }
 
     @Override
